@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import AuthGuard from "@/components/auth-guard";
 import NavBar from "@/components/nav-bar";
-import SideBySide from "@/components/side-by-side";
+import EnginePanel from "@/components/engine-panel";
 import { useReportDetail } from "@/hooks/use-reports";
 
 export default function ReportDetailPage() {
@@ -42,10 +42,9 @@ export default function ReportDetailPage() {
                   </span>
                 </div>
               </div>
-              <SideBySide
-                geminiResult={report.gemini_result}
-                langchainResult={report.langchain_result}
-              />
+              <div className="px-6 py-4">
+                <EnginePanel result={report.result} />
+              </div>
             </>
           ) : (
             <div className="flex items-center justify-center h-96">

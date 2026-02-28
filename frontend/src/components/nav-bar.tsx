@@ -38,12 +38,8 @@ export default function NavBar() {
 
           <div className="hidden md:flex items-center gap-2 ml-6">
             <StatusIndicator
-              label="Agent Alpha"
+              label="Deep Research Engine"
               color="#00f2ff"
-            />
-            <StatusIndicator
-              label="Agent Sigma"
-              color="#ff00e5"
             />
           </div>
         </div>

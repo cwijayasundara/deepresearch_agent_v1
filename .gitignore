@@ -29,6 +29,15 @@ htmlcov/
 # Claude Code local settings
 .claude/settings.local.json
 
+# Rust
+rust-backend/target/
+rust-backend/data/*.db
+
+# Node / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+
 # OS
 .DS_Store
 Thumbs.db

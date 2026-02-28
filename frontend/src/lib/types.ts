@@ -1,4 +1,3 @@
-export type EngineType = "gemini" | "langchain";
 export type ResearchStatus = "pending" | "running" | "completed" | "failed";
 export type ConfidenceLevel = "high" | "medium" | "low";
 
@@ -8,6 +7,7 @@ export interface ViralEvent {
   impact_rating: number;
   confidence: ConfidenceLevel;
   source: string;
+  summary: string;
 }
 
 export interface DeepDive {
@@ -25,7 +25,6 @@ export interface CompletenessAudit {
 }
 
 export interface EngineResult {
-  engine: EngineType;
   status: ResearchStatus;
   raw_markdown: string;
   tldr: string | null;
@@ -41,8 +40,7 @@ export interface EngineResult {
 export interface ResearchReport {
   report_id: string;
   run_date: string;
-  gemini_result: EngineResult | null;
-  langchain_result: EngineResult | null;
+  result: EngineResult | null;
   created_at: string;
 }
 

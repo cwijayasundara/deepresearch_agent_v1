@@ -2,7 +2,7 @@
 
 import AuthGuard from "@/components/auth-guard";
 import NavBar from "@/components/nav-bar";
-import SideBySide from "@/components/side-by-side";
+import EnginePanel from "@/components/engine-panel";
 import ReportCard from "@/components/report-card";
 import { useReports } from "@/hooks/use-reports";
 
@@ -38,10 +38,9 @@ export default function DashboardPage() {
               </div>
             </div>
           ) : latestReport ? (
-            <SideBySide
-              geminiResult={latestReport.gemini_result}
-              langchainResult={latestReport.langchain_result}
-            />
+            <div className="px-6 py-4">
+              <EnginePanel result={latestReport.result} />
+            </div>
           ) : (
             <div className="flex items-center justify-center h-96">
               <div className="text-center">
