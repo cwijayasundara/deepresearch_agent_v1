@@ -1,0 +1,54 @@
+apiVersion: run.googleapis.com/v1
+kind: Job
+metadata:
+  name: deep-research-daily-job
+  labels:
+    cloud.googleapis.com/location: us-central1
+  annotations:
+    run.googleapis.com/launch-stage: GA
+spec:
+  template:
+    metadata:
+      annotations:
+        run.googleapis.com/cpu-throttling: "false"
+    spec:
+      taskCount: 1
+      template:
+        spec:
+          maxRetries: 1
+          timeoutSeconds: 3600
+          serviceAccountName: deep-research-job-sa
+          containers:
+            - image: gcr.io/PROJECT_ID/deep-research-job:latest
+              resources:
+                limits:
+                  cpu: "1"
+                  memory: 1Gi
+              env:
+                - name: APP_ENV
+                  value: production
+                - name: GEMINI_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: gemini-api-key
+                      key: latest
+                - name: OPENAI_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: openai-api-key
+                      key: latest
+                - name: TAVILY_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: tavily-api-key
+                      key: latest
+                - name: FIRESTORE_PROJECT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: firestore-project-id
+                      key: latest
+                - name: FIRESTORE_COLLECTION
+                  valueFrom:
+                    secretKeyRef:
+                      name: firestore-collection
+                      key: latest
