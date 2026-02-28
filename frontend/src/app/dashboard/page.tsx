@@ -4,6 +4,7 @@ import AuthGuard from "@/components/auth-guard";
 import NavBar from "@/components/nav-bar";
 import EnginePanel from "@/components/engine-panel";
 import ReportCard from "@/components/report-card";
+import DownloadReportButton from "@/components/download-report-button";
 import { useReports } from "@/hooks/use-reports";
 
 export default function DashboardPage() {
@@ -21,7 +22,8 @@ export default function DashboardPage() {
             </div>
           )}
 
-          <div className="flex justify-end px-6 pt-4">
+          <div className="flex justify-end gap-3 px-6 pt-4">
+            <DownloadReportButton report={latestReport} />
             <button
               onClick={() => trigger()}
               disabled={triggering}

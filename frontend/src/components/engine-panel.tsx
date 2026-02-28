@@ -1,6 +1,7 @@
 "use client";
 
 import { EngineResult, ViralEvent, DeepDive, ConfidenceLevel } from "@/lib/types";
+import { isUrl, extractUrls, domainFrom, parseTldrBullets } from "@/lib/report-utils";
 
 interface EnginePanelProps {
   result: EngineResult | null;
@@ -12,44 +13,6 @@ const ENGINE_CONFIG = {
   color: "#00f2ff",
   icon: "R",
 } as const;
-
-function isUrl(str: string): boolean {
-  return /^https?:\/\//i.test(str.trim());
-}
-
-function extractUrls(text: string): string[] {
-  const urlRe = /https?:\/\/[^\s)>\]"']+/g;
-  const matches = text.match(urlRe) || [];
-  return [...new Set(matches)];
-}
-
-function domainFrom(url: string): string {
-  try {
-    return new URL(url).hostname.replace(/^www\./, "");
-  } catch {
-    return url;
-  }
-}
-
-function parseTldrBullets(tldr: string): string[] {
-  const lines = tldr.split("\n").map((l) => l.trim()).filter(Boolean);
-  const bullets: string[] = [];
-  let current = "";
-
-  for (const line of lines) {
-    if (/^[-*]\s+/.test(line)) {
-      if (current) bullets.push(current);
-      current = line.replace(/^[-*]\s+/, "");
-    } else if (/^\d+\.\s+/.test(line)) {
-      if (current) bullets.push(current);
-      current = line.replace(/^\d+\.\s+/, "");
-    } else {
-      current += (current ? " " : "") + line;
-    }
-  }
-  if (current) bullets.push(current);
-  return bullets;
-}
 
 export default function EnginePanel({ result }: EnginePanelProps) {
   const config = ENGINE_CONFIG;
