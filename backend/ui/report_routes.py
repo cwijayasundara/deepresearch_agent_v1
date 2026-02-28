@@ -102,9 +102,11 @@ async def trigger_research(
 ) -> dict[str, str]:
     """Trigger a new research run."""
     date = _get_date_or_today(request.date)
+    logger.info("Research trigger requested for date=%s", date)
     try:
         report = await orchestrator.run_daily_research(date)
     except FirestoreError as exc:
         logger.error("Firestore unavailable: %s", exc)
         raise HTTPException(status_code=503, detail=str(exc)) from exc
+    logger.info("Research complete report_id=%s", report.report_id)
     return {"report_id": report.report_id, "status": "triggered"}

@@ -13,16 +13,16 @@ class TestLangChainResearchClient:
         client = LangChainResearchClient(
             openai_api_key="test-openai",
             tavily_api_key="test-tavily",
-            model="gpt-4.1",
+            model="gpt-5-mini",
         )
-        assert client.model == "gpt-4.1"
+        assert client.model == "gpt-5-mini"
 
     @pytest.mark.asyncio
     async def test_run_research_returns_markdown(self) -> None:
         client = LangChainResearchClient(
             openai_api_key="test-openai",
             tavily_api_key="test-tavily",
-            model="gpt-4.1",
+            model="gpt-5-mini",
         )
         with patch.object(
             client, "_execute_research", new_callable=AsyncMock
@@ -36,7 +36,7 @@ class TestLangChainResearchClient:
         client = LangChainResearchClient(
             openai_api_key="test-openai",
             tavily_api_key="test-tavily",
-            model="gpt-4.1",
+            model="gpt-5-mini",
         )
         with patch.object(
             client, "_execute_research", new_callable=AsyncMock

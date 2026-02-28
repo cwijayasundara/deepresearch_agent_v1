@@ -21,8 +21,8 @@ class Settings(BaseSettings):
     firestore_project_id: str = ""
     firestore_collection: str = "research_reports"
 
-    gemini_model: str = "gemini-2.5-flash"
-    openai_model: str = "gpt-4.1"
+    gemini_model: str = "gemini-3-flash-preview"
+    openai_model: str = "gpt-5-mini"
 
     cors_origins: list[str] = ["http://localhost:3000"]
 

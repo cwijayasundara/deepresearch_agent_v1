@@ -1,4 +1,4 @@
-"""LangChain research client using Tavily + GPT-4.1."""
+"""LangChain research client using Tavily + GPT-5-mini."""
 
 import logging
 
@@ -34,17 +34,15 @@ class LangChainResearchClient:
         """Execute the LangChain agent pipeline."""
         import os
 
-        from langchain_community.tools.tavily_search import (
-            TavilySearchResults,
-        )
         from langchain_openai import ChatOpenAI
+        from langchain_tavily import TavilySearch
 
         os.environ["TAVILY_API_KEY"] = self._tavily_api_key
         llm = ChatOpenAI(
             model=self.model,
             api_key=self._openai_api_key,
         )
-        search_tool = TavilySearchResults(
+        search_tool = TavilySearch(
             max_results=10,
         )
         search_results = await search_tool.ainvoke(prompt)

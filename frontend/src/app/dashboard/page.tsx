@@ -7,7 +7,7 @@ import ReportCard from "@/components/report-card";
 import { useReports } from "@/hooks/use-reports";
 
 export default function DashboardPage() {
-  const { reports, loading, error } = useReports();
+  const { reports, loading, error, trigger, triggering } = useReports();
   const latestReport = reports.length > 0 ? reports[0] : null;
 
   return (
@@ -15,6 +15,22 @@ export default function DashboardPage() {
       <div className="min-h-screen bg-[#101622]">
         <NavBar />
         <main className="max-w-[1920px] mx-auto">
+          {error && (
+            <div className="mx-6 mt-4 px-4 py-2 bg-red-900/30 border border-red-700/50 rounded text-red-400 text-sm">
+              {error}
+            </div>
+          )}
+
+          <div className="flex justify-end px-6 pt-4">
+            <button
+              onClick={() => trigger()}
+              disabled={triggering}
+              className="px-4 py-2 text-xs font-bold uppercase tracking-wider bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 rounded hover:bg-cyan-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              {triggering ? "Running..." : "Trigger Research"}
+            </button>
+          </div>
+
           {loading ? (
             <div className="flex items-center justify-center h-96">
               <div className="text-slate-400 text-sm animate-pulse">
@@ -30,9 +46,16 @@ export default function DashboardPage() {
             <div className="flex items-center justify-center h-96">
               <div className="text-center">
                 <p className="text-slate-400 text-sm">No reports yet</p>
-                <p className="text-slate-500 text-xs mt-1">
+                <p className="text-slate-500 text-xs mt-1 mb-4">
                   Trigger a research run to get started
                 </p>
+                <button
+                  onClick={() => trigger()}
+                  disabled={triggering}
+                  className="px-4 py-2 text-xs font-bold uppercase tracking-wider bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 rounded hover:bg-cyan-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  {triggering ? "Running..." : "Trigger Research"}
+                </button>
               </div>
             </div>
           )}

@@ -35,6 +35,11 @@ def get_firestore_repo() -> FirestoreRepo:
     from google.cloud import firestore
 
     settings = get_settings()
+    logger.info(
+        "Connecting to Firestore project=%s collection=%s",
+        settings.firestore_project_id,
+        settings.firestore_collection,
+    )
     db = firestore.AsyncClient(project=settings.firestore_project_id)
     return FirestoreRepo(db=db, collection_name=settings.firestore_collection)
 

@@ -24,8 +24,8 @@ class TestSettings:
         assert s.app_port == 8000
         assert s.firestore_project_id == ""
         assert s.firestore_collection == "research_reports"
-        assert s.gemini_model == "gemini-2.5-flash"
-        assert s.openai_model == "gpt-4.1"
+        assert s.gemini_model == "gemini-3-flash-preview"
+        assert s.openai_model == "gpt-5-mini"
         assert s.jwt_algorithm == "HS256"
         assert s.jwt_expire_hours == 24
         assert s.cors_origins == ["http://localhost:3000"]

@@ -1,6 +1,6 @@
 # Deep Research Agent V1
 
-> Global AI Viral Intelligence Tracker v4.0 — A daily AI intelligence tracker that runs two research engines (Gemini Deep Research + LangChain/Tavily/GPT-4.1) side-by-side, producing structured reports stored in Firestore, served via FastAPI, and displayed in a Next.js frontend.
+> Global AI Viral Intelligence Tracker v4.0 — A daily AI intelligence tracker that runs two research engines (Gemini Deep Research + LangChain/Tavily/GPT-5-mini) side-by-side, producing structured reports stored in Firestore, served via FastAPI, and displayed in a Next.js frontend.
 
 ## Prerequisites
 
@@ -183,6 +183,6 @@ deploy/              # Cloud Run and Cloud Scheduler configs
 | Engine | Label | Technology | Color |
 |--------|-------|------------|-------|
 | Alpha | Agent Alpha | Google Gemini Deep Research | Cyan `#00f2ff` |
-| Sigma | Agent Sigma | LangChain + Tavily + GPT-4.1 | Magenta `#ff00e5` |
+| Sigma | Agent Sigma | LangChain + Tavily + GPT-5-mini | Magenta `#ff00e5` |
 
 Both engines run in parallel via `asyncio.gather()`, parse their markdown output into structured data (TL;DR, viral events, deep dives, completeness audit), and store results in Firestore.
