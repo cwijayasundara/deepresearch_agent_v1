@@ -31,12 +31,12 @@ Testable criteria in Given/When/Then format. Each criterion becomes a test.
 
 ## Affected Layers
 
-- [ ] **Types** (`src/types/`): [what changes — new models, enums, etc.]
-- [ ] **Config** (`src/config/`): [what changes — new env vars, settings]
-- [ ] **Repo** (`src/repo/`): [what changes — new queries, API clients]
-- [ ] **Service** (`src/service/`): [what changes — business logic]
-- [ ] **Runtime** (`src/runtime/`): [what changes — middleware, lifecycle]
-- [ ] **UI** (`src/ui/`): [what changes — routes, components]
+- [ ] **Types** (`backend/types/`): [what changes — new models, enums, etc.]
+- [ ] **Config** (`backend/config/`): [what changes — new env vars, settings]
+- [ ] **Repo** (`backend/repo/`): [what changes — new queries, API clients]
+- [ ] **Service** (`backend/service/`): [what changes — business logic]
+- [ ] **Runtime** (`backend/runtime/`): [what changes — middleware, lifecycle]
+- [ ] **UI** (`backend/ui/`): [what changes — routes, components]
 
 ## Data Model
 
@@ -123,9 +123,9 @@ Describe where new UI elements appear and how they relate to existing layout:
 
 | Component | Location | Behavior |
 |-----------|----------|----------|
-| `CreateExampleButton` | `src/ui/examples/` | Opens creation modal on click |
-| `ExampleForm` | `src/ui/examples/` | Validates name length, shows inline errors |
-| `ExampleList` | `src/ui/examples/` | Paginated list with status filter dropdown |
+| `CreateExampleButton` | `backend/ui/examples/` | Opens creation modal on click |
+| `ExampleForm` | `backend/ui/examples/` | Validates name length, shows inline errors |
+| `ExampleList` | `backend/ui/examples/` | Paginated list with status filter dropdown |
 
 ### Visual Specs
 

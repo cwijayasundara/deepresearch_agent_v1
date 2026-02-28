@@ -10,7 +10,7 @@ Reverse-engineers a design system document by analyzing existing UI code.
 ## Process
 
 1. **Scan UI code**:
-   a. Find all files in `src/ui/`, `templates/`, and static asset directories
+   a. Find all files in `backend/ui/`, `templates/`, and static asset directories
    b. Extract color values (hex, rgb, CSS variables)
    c. Extract spacing values (margins, padding, gaps)
    d. Extract typography (font families, sizes, weights)

@@ -43,7 +43,7 @@ Run quality checks within the worktree:
 
 ```bash
 python3 .claude/linters/lint_all.py
-pytest tests/ --cov=src --cov-fail-under=80
+pytest backend/tests/ --cov=src --cov-fail-under=80
 ```
 
 If linters or tests fail, fix issues before committing.

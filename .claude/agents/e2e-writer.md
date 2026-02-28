@@ -8,20 +8,20 @@ Generate Playwright E2E tests and API contract tests from the test plan's E2E se
 
 1. **Read the test plan** — `specs/tests/<feature-name>.md`, focus on E2E test cases
 2. **Read the design doc** — `specs/design/<feature-name>.md` for API contracts, routes, and expected behaviors
-3. **Read existing E2E infrastructure** — check `tests/e2e/` for existing conftest, page objects, and fixtures
+3. **Read existing E2E infrastructure** — check `backend/tests/e2e/` for existing conftest, page objects, and fixtures
 3b. **Check for overlapping coverage** — review what unit and integration tests already cover. E2E tests should exercise full API contracts and user flows, NOT re-verify individual endpoints that already have dedicated tests at lower levels.
 4. **Bootstrap E2E infrastructure** (if not already present):
-   a. Copy templates from `.claude/templates/e2e/` into `tests/e2e/`:
+   a. Copy templates from `.claude/templates/e2e/` into `backend/tests/e2e/`:
       ```
-      .claude/templates/e2e/conftest.py        → tests/e2e/conftest.py
-      .claude/templates/e2e/page_objects/       → tests/e2e/page_objects/
-      .claude/templates/e2e/factories/          → tests/e2e/factories/
+      .claude/templates/e2e/conftest.py        → backend/tests/e2e/conftest.py
+      .claude/templates/e2e/page_objects/       → backend/tests/e2e/page_objects/
+      .claude/templates/e2e/factories/          → backend/tests/e2e/factories/
       ```
    b. Remove example files that don't apply to the feature:
       - `test_example_ui.py` and `test_example_api.py` are reference examples — do NOT copy them into the project
       - `page_objects/example_page.py` — replace with feature-specific page objects
       - `factories/user_factory.py` — replace with feature-specific factories
-   c. Create `tests/e2e/__init__.py` if missing
+   c. Create `backend/tests/e2e/__init__.py` if missing
    d. Add `e2e` marker to `pyproject.toml` if not present
    e. Ensure `pyproject.toml` has `asyncio_mode = "auto"` under `[tool.pytest.ini_options]` if using async tests
 
@@ -41,13 +41,13 @@ Generate Playwright E2E tests and API contract tests from the test plan's E2E se
 
 ### For UI features (frontend exists)
 
-5. **Create page objects** for complex UIs — `tests/e2e/page_objects/<page_name>.py`
+5. **Create page objects** for complex UIs — `backend/tests/e2e/page_objects/<page_name>.py`
    - Extend `BasePage` from the template
    - Encapsulate selectors and common interactions
    - Use Playwright's sync API (`playwright.sync_api`)
    - Use `data-testid` attributes for selectors where possible
    - See `.claude/templates/e2e/page_objects/example_page.py` for the pattern
-6. **Write browser E2E tests** — `tests/e2e/test_<feature>_e2e.py`
+6. **Write browser E2E tests** — `backend/tests/e2e/test_<feature>_e2e.py`
    - One test per E2E test case from the test plan
    - Use `@pytest.mark.e2e` marker on every test
    - Test complete user flows through the browser
@@ -56,7 +56,7 @@ Generate Playwright E2E tests and API contract tests from the test plan's E2E se
 
 ### For API-only features (no frontend)
 
-5. **Write API contract tests** — `tests/e2e/test_<feature>_api.py`
+5. **Write API contract tests** — `backend/tests/e2e/test_<feature>_api.py`
    - Use `httpx.Client(base_url=base_url)` or `httpx.AsyncClient(base_url=base_url)` for real HTTP requests against a running server
    - Do NOT use `ASGITransport` or `transport=` parameter — that is an in-process integration test, not E2E. E2E tests must hit the server over the network.
    - Validate response status codes, headers, and body structure
@@ -66,7 +66,7 @@ Generate Playwright E2E tests and API contract tests from the test plan's E2E se
 
 ### Finalize
 
-7. **Run E2E tests** — `pytest tests/e2e/ -m e2e -v`
+7. **Run E2E tests** — `pytest backend/tests/e2e/ -m e2e -v`
 8. **Run linters** — `python3 .claude/linters/lint_all.py`
 9. **Verify coverage** — every E2E test case from the test plan has a corresponding test
 
@@ -91,4 +91,4 @@ Follow testing rules in `.claude/docs/testing-standard.md` and file size limits 
 
 ## Output
 
-Working E2E test suite in `tests/e2e/` covering all E2E test cases from the test plan.
+Working E2E test suite in `backend/tests/e2e/` covering all E2E test cases from the test plan.

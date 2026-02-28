@@ -9,7 +9,7 @@ These fixtures provide the core test infrastructure:
 - ``test_data``: Override point for feature-specific test data
 
 Requires a running application server. Set BASE_URL to point at it:
-    BASE_URL=http://localhost:8000 pytest tests/e2e/ -m e2e
+    BASE_URL=http://localhost:8000 pytest backend/tests/e2e/ -m e2e
 """
 
 from __future__ import annotations

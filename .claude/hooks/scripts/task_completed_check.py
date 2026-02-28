@@ -49,7 +49,7 @@ def main() -> None:
     # Run quick test check
     try:
         result = subprocess.run(
-            ["python3", "-m", "pytest", "tests/", "-x", "-q", "--tb=no"],
+            ["python3", "-m", "pytest", "backend/tests/", "-x", "-q", "--tb=no"],
             capture_output=True,
             text=True,
             timeout=60,

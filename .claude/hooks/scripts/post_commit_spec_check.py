@@ -51,7 +51,7 @@ def main() -> None:
     specs_dir = project_root / "specs" / "features"
 
     for file in changed:
-        if not file.startswith("src/"):
+        if not file.startswith("backend/"):
             continue
         src_files += 1
         basename = Path(file).stem

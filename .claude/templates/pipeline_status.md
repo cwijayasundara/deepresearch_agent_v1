@@ -21,9 +21,9 @@
 | 4. Test Plan | | spec-writer | `specs/tests/<name>.md` | | |
 | 5. Exec Plan | | spec-writer | `specs/plans/<name>.md` | | |
 | 6. Approve Plan | | human | — | | |
-| 7. Implement | | implementer | `src/`, `tests/` | | |
-| 8. Test Fill | | test-writer | `tests/` | | |
-| 9. E2E Tests | | e2e-writer | `tests/e2e/` | | |
+| 7. Implement | | implementer | `backend/` (incl. tests) | | |
+| 8. Test Fill | | test-writer | `backend/tests/` | | |
+| 9. E2E Tests | | e2e-writer | `backend/tests/e2e/` | | |
 | 10. DevOps | | devops | `infra/`, `.github/workflows/` | | |
 | 11. Review | | spec-reviewer, code-reviewer | review verdicts | | |
 | 12. Approve PR | | human | — | | |

@@ -25,12 +25,12 @@ Code may only depend **forward** through layers. Backward imports are forbidden 
 
 | Layer | Path | May Import From | Never Import From |
 |-------|------|-----------------|-------------------|
-| Types | `src/types/` | (none) | All others |
-| Config | `src/config/` | Types | Repo, Service, Runtime, UI |
-| Repo | `src/repo/` | Types, Config | Service, Runtime, UI |
-| Service | `src/service/` | Types, Config, Repo | Runtime, UI |
-| Runtime | `src/runtime/` | Types, Config, Repo, Service | UI |
-| UI | `src/ui/` | All layers | (none) |
+| Types | `backend/types/` | (none) | All others |
+| Config | `backend/config/` | Types | Repo, Service, Runtime, UI |
+| Repo | `backend/repo/` | Types, Config | Service, Runtime, UI |
+| Service | `backend/service/` | Types, Config, Repo | Runtime, UI |
+| Runtime | `backend/runtime/` | Types, Config, Repo, Service | UI |
+| UI | `backend/ui/` | All layers | (none) |
 
 ## TDD Enforcement (Iron Law)
 
@@ -45,7 +45,7 @@ Never write production code without a failing test first.
 ## Quality Gates
 
 - **Linters**: `python3 .claude/linters/lint_all.py` (layer deps + file size)
-- **Tests**: `pytest tests/ --cov=src --cov-fail-under=80`
+- **Tests**: `pytest backend/tests/ --cov=backend --cov-fail-under=80`
 - **File limits**: 300 lines per file, 50 lines per function
 
 ## Conventions

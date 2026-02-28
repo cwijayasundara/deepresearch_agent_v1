@@ -31,7 +31,7 @@ Cleans up dead code, unused imports, stale TODOs, orphaned files, and other tech
 - **Report only**: function/class removal, file deletion, TODO removal
 - Never modify test logic — only clean up test imports and formatting
 - Run `python3 .claude/linters/lint_all.py` after all changes
-- Run `pytest tests/ -x -q` after changes to verify nothing broke
+- Run `pytest backend/tests/ -x -q` after changes to verify nothing broke
 
 ## Allowed Tools
 

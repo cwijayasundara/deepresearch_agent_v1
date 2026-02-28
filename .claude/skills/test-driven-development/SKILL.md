@@ -18,7 +18,7 @@ For every acceptance criterion in a story:
    a. The behavior already exists (skip to next criterion)
    b. The test is wrong (fix the test)
 3. The test must fail for the **right reason** — not import errors, syntax errors, or missing fixtures
-4. Run: `pytest tests/<test_file>::<test_function> -x -q`
+4. Run: `pytest backend/tests/<test_file>::<test_function> -x -q`
 5. Confirm: test fails with an assertion error or expected exception
 
 ### GREEN — Write Minimum Code
@@ -26,7 +26,7 @@ For every acceptance criterion in a story:
 1. Write the **minimum** production code to make the failing test pass
 2. Do NOT write code for other criteria, future needs, or "nice to have" features
 3. Do NOT refactor yet — just make the test pass
-4. Run: `pytest tests/<test_file>::<test_function> -x -q`
+4. Run: `pytest backend/tests/<test_file>::<test_function> -x -q`
 5. Confirm: test passes
 
 ### REFACTOR — Clean Up
@@ -34,7 +34,7 @@ For every acceptance criterion in a story:
 1. Look for duplication introduced by the new code
 2. Improve naming, extract helpers if needed
 3. Ensure the code follows project conventions (layers, imports, logging)
-4. Run: `pytest tests/ -x -q` (full suite — catch regressions)
+4. Run: `pytest backend/tests/ -x -q` (full suite — catch regressions)
 5. Confirm: all tests still pass
 
 ## When to Use

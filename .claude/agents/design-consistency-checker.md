@@ -8,7 +8,7 @@ Validates that UI/UX implementation complies with the project's design system sp
 
 1. **Read the design system** — check `specs/design_system.md` or `docs/design-system/` for design tokens, component library, and patterns
 2. **Read the spec** — check `specs/features/` for UI requirements and mockups
-3. **Scan UI layer** — read all files in `src/ui/` and template directories
+3. **Scan UI layer** — read all files in `backend/ui/` and template directories
 4. **Check component compliance**:
    a. Components match documented patterns (naming, props, structure)
    b. No ad-hoc styling that bypasses the design system

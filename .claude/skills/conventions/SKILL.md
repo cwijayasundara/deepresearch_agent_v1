@@ -5,7 +5,7 @@ disable-model-invocation: true
 
 # Coding Conventions
 
-Standards for naming, logging, file size, type safety, and code organization. These apply to all code in `src/` and `tests/`.
+Standards for naming, logging, file size, type safety, and code organization. These apply to all code in `backend/` (including `backend/tests/`).
 
 ## Naming
 
@@ -30,8 +30,8 @@ Standards for naming, logging, file size, type safety, and code organization. Th
 ## Type Hints
 
 Required on ALL function signatures, including:
-- Production code in `src/`
-- Test functions in `tests/`
+- Production code in `backend/`
+- Test functions in `backend/tests/`
 - Fixtures and helpers
 
 ```python
@@ -81,7 +81,7 @@ logger.info(f"Created user {user.id}")  # Also bad: unstructured message
 ### Rules
 1. Catch **specific exceptions**, never bare `except:` or `except Exception:`
 2. Log context with every caught exception
-3. Define custom exception classes in `src/types/` for domain errors
+3. Define custom exception classes in `backend/types/` for domain errors
 4. Raise domain exceptions from Service, catch in UI
 5. Wrap external exceptions in Repo (e.g., `httpx.HTTPError` -> `ExternalServiceError`)
 
@@ -136,15 +136,15 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 # 3. Project imports (in layer order: types -> config -> repo -> service -> runtime)
-from src.types.user import User, UserId
-from src.config.settings import Settings
-from src.repo.user_repo import UserRepo
+from backend.types.user import User, UserId
+from backend.config.settings import Settings
+from backend.repo.user_repo import UserRepo
 ```
 
 ## Secrets
 
 - **Never hardcode** secrets, API keys, tokens, or passwords
-- All secrets must come from environment variables, loaded via `src/config/`
+- All secrets must come from environment variables, loaded via `backend/config/`
 - Use `.env.example` to document required environment variables (without real values)
 - Never commit `.env` files -- ensure `.gitignore` includes them
 

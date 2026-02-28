@@ -4,7 +4,7 @@ These tests demonstrate the pattern for writing API E2E tests.
 They require a running application server at BASE_URL.
 
 Run:
-    BASE_URL=http://localhost:8000 pytest tests/e2e/test_example_api.py -m e2e
+    BASE_URL=http://localhost:8000 pytest backend/tests/e2e/test_example_api.py -m e2e
 """
 
 from __future__ import annotations

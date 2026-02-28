@@ -11,8 +11,8 @@
 import pytest
 from unittest.mock import MagicMock
 
-from src.types.user import UserId, UserCreate, User
-from src.service.user_service import UserService, DuplicateEmailError
+from backend.types.user import UserId, UserCreate, User
+from backend.service.user_service import UserService, DuplicateEmailError
 
 
 @pytest.fixture

@@ -14,7 +14,7 @@ Reverse-engineer architecture documentation from existing code.
 
 ## Arguments
 
-- **scope** (optional): Directory or module to analyze (default: `src/`)
+- **scope** (optional): Directory or module to analyze (default: `backend/`)
 
 ## Process
 

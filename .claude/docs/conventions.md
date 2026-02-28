@@ -11,7 +11,7 @@
 
 ### Type Hints
 - All function signatures must have type annotations
-- This applies to all Python code including test functions, fixtures, and E2E tests — not just `src/`
+- This applies to all Python code including test functions, fixtures, and E2E tests — not just `backend/`
 - No `Any` type — use specific types or Generics
 - Use `TypeVar` for generic functions
 - Use `Protocol` for structural typing
@@ -38,7 +38,7 @@ except requests.RequestException as e:
 ```
 - Catch specific exceptions, never bare `except:`
 - Always log with context before re-raising
-- Use custom exception classes from `src/types/`
+- Use custom exception classes from `backend/types/`
 
 ### Imports
 ```python
@@ -51,8 +51,8 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 
 # 3. Project (layer order)
-from src.types.user import UserCreate
-from src.config.settings import Settings
+from backend.types.user import UserCreate
+from backend.config.settings import Settings
 ```
 
 ## TypeScript / React
@@ -90,6 +90,6 @@ When a file exceeds limits, split into focused modules following the layer model
 ## Secrets
 
 - Never hardcode API keys, passwords, tokens, or credentials
-- Use environment variables loaded through `src/config/`
+- Use environment variables loaded through `backend/config/`
 - Store development values in `.env` (gitignored)
 - Document required variables in `.env.example`

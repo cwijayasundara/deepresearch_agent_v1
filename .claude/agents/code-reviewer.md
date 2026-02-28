@@ -39,7 +39,7 @@ You do not check spec compliance — that is the spec-reviewer's job.
 - [ ] Function naming: snake_case
 - [ ] Class naming: PascalCase
 - [ ] Structured logging used (no raw print)
-- [ ] Every module in `src/service/`, `src/repo/`, `src/runtime/`, `src/ui/` has `logger = logging.getLogger(__name__)` at module level
+- [ ] Every module in `backend/service/`, `backend/repo/`, `backend/runtime/`, `backend/ui/` has `logger = logging.getLogger(__name__)` at module level
 - [ ] File size within 300 lines
 - [ ] Function size within 50 lines
 - [ ] Refined Pydantic types for domain concepts

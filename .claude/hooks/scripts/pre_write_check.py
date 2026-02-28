@@ -41,17 +41,17 @@ def main() -> None:
     if not file_path:
         return
 
-    is_src = "/src/" in file_path or file_path.startswith("src/")
-    is_tests = "/tests/" in file_path or file_path.startswith("tests/")
+    is_src = "/backend/" in file_path or file_path.startswith("backend/")
+    is_tests = "/backend/tests/" in file_path or file_path.startswith("backend/tests/")
 
     if not is_src and not is_tests:
         return
 
-    # Layer reminder for src/ writes
+    # Layer reminder for backend/ writes
     if is_src:
         layers = ["types", "config", "repo", "service", "runtime", "ui"]
         for layer in layers:
-            if f"src/{layer}/" in file_path:
+            if f"backend/{layer}/" in file_path:
                 print(
                     f"pre-write-check: Writing to '{layer}' layer."
                     " Imports only from lower layers."
@@ -60,7 +60,7 @@ def main() -> None:
 
         # Spec suggestion for new service modules
         name = Path(file_path).stem
-        if "src/service/" in file_path and name not in ("__init__", "conftest"):
+        if "backend/service/" in file_path and name not in ("__init__", "conftest"):
             project_root = get_project_root()
             feature_id = name.replace("_", "-")
             spec_path = project_root / "specs" / "features" / f"{feature_id}.md"

@@ -84,7 +84,7 @@ Task:
     4. Implement the story using strict TDD (RED-GREEN-REFACTOR for each AC)
     5. IMPORTANT: Only modify files listed in your task description to avoid conflicts with other teammates
     6. Run linters: python3 .claude/linters/lint_all.py
-    7. Run tests: pytest tests/ -x -q
+    7. Run tests: pytest backend/tests/ -x -q
     8. Commit: feat(US-XXX): <description>
     9. Mark task complete with TaskUpdate (status: "completed")
     10. Send completion message to the team lead via SendMessage:
@@ -129,7 +129,7 @@ The lead monitors via multiple channels:
 
 After all tasks are complete:
 
-1. Run full test suite: `pytest tests/ --cov=src --cov-fail-under=80`
+1. Run full test suite: `pytest backend/tests/ --cov=src --cov-fail-under=80`
 2. Run all linters: `python3 .claude/linters/lint_all.py`
 3. Verify all acceptance criteria are covered
 4. Check for file conflicts between teammates (if any, resolve before continuing)
@@ -187,7 +187,7 @@ Runs when a task is being marked complete. Exit code 2 prevents completion and s
 ## Avoiding File Conflicts
 
 Two teammates editing the same file causes overwrites. Prevent this by:
-- Assigning file ownership in task descriptions ("Files to own: src/repo/users.py, tests/test_users.py")
+- Assigning file ownership in task descriptions ("Files to own: backend/repo/users.py, backend/tests/test_users.py")
 - Breaking stories so each touches different files
 - If conflict is unavoidable, make one story depend on the other (sequential, not parallel)
 

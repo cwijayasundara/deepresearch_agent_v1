@@ -13,7 +13,7 @@ Manages the project's UI/UX design system documentation and enforcement.
 
 Generate a design system document from existing UI code:
 
-1. Scan `src/ui/` and template directories for UI patterns
+1. Scan `backend/ui/` and template directories for UI patterns
 2. Extract recurring patterns: components, spacing, colors, typography
 3. Generate `specs/design_system.md` with:
    - Design tokens (colors, spacing, typography, breakpoints)

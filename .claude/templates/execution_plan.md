@@ -33,9 +33,9 @@ What this milestone achieves.
 #### Task 1.1: [Short description]
 
 - **What**: [Exact action — e.g., "Create ExampleId refined type and ExampleStatus enum"]
-- **Where**: `src/types/example.py`
+- **Where**: `backend/types/example.py`
 - **Details**: [Complete description of the code to write, or the change to make]
-- **Verify**: `python -c "from src.types.example import ExampleId, ExampleStatus"` succeeds
+- **Verify**: `python -c "from backend.types.example import ExampleId, ExampleStatus"` succeeds
 
 #### Task 1.2: [Short description]
 
@@ -44,7 +44,7 @@ What this milestone achieves.
 - **Details**: [Complete description]
 - **Verify**: [command + expected output]
 
-**Milestone verification**: [Observable acceptance — e.g., "`pytest tests/unit/` shows 0 failures"]
+**Milestone verification**: [Observable acceptance — e.g., "`pytest backend/tests/unit/` shows 0 failures"]
 
 ### Milestone 2: [Name]
 

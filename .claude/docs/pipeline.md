@@ -75,7 +75,7 @@ The spec-writer handles phases 1-5 in sequence. Do not interrupt it.
 
 **Agent**: implementer (or team of implementers via `teams` skill)
 **Input**: Spec, stories, design, execution plan
-**Output**: `src/` code + `tests/` unit/integration tests
+**Output**: `backend/` code + `backend/tests/` unit/integration tests (co-located)
 **TDD**: Mandatory — every acceptance criterion follows RED → GREEN → REFACTOR cycle
 
 **Team orchestration check** (MANDATORY — do not skip):
@@ -96,7 +96,7 @@ The spec-writer handles phases 1-5 in sequence. Do not interrupt it.
 
 After implementation:
 - Run `python3 .claude/linters/lint_all.py` — all linters must pass
-- Run `pytest tests/ --cov=src --cov-fail-under=80` — all tests must pass
+- Run `pytest backend/tests/ --cov=src --cov-fail-under=80` — all tests must pass
 
 **Gate**: All linters pass, all tests pass, coverage >= 80%, all task-validation-loops passed
 
@@ -104,7 +104,7 @@ After implementation:
 
 **Agent**: test-writer
 **Trigger**: Coverage is below 80% or acceptance criteria lack test coverage
-**Output**: Additional tests in `tests/`
+**Output**: Additional tests in `backend/tests/`
 **Skip**: If coverage >= 80% and all acceptance criteria have tests
 
 **Gate**: Coverage >= 80%, all acceptance criteria covered
@@ -113,9 +113,9 @@ After implementation:
 
 **Agent**: e2e-writer
 **Input**: Test plan E2E section + design doc API contracts
-**Output**: `tests/e2e/` with Playwright browser tests or httpx API tests
+**Output**: `backend/tests/e2e/` with Playwright browser tests or httpx API tests
 
-**Gate**: E2E test files exist, `pytest tests/e2e/ -m e2e` passes
+**Gate**: E2E test files exist, `pytest backend/tests/e2e/ -m e2e` passes
 
 ### Phase 9: DevOps
 
@@ -214,7 +214,7 @@ The `teams` skill handles the full team lifecycle:
 
 6. **Verify** after all tasks complete:
    ```
-   pytest tests/ --cov=src --cov-fail-under=80
+   pytest backend/tests/ --cov=src --cov-fail-under=80
    python3 .claude/linters/lint_all.py
    ```
 

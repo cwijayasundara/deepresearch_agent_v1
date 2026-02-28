@@ -14,14 +14,14 @@ LAYER_INDEX = {name: i for i, name in enumerate(LAYERS)}
 
 def get_layer(filepath: str) -> str | None:
     for layer in LAYERS:
-        if f"src/{layer}/" in filepath:
+        if f"backend/{layer}/" in filepath:
             return layer
     return None
 
 
 def get_import_layer(target: str) -> str | None:
     for layer in LAYERS:
-        if re.search(rf"(^|\.)(src\.)?{layer}(\.|$)", target):
+        if re.search(rf"(^|\.)(backend\.)?{layer}(\.|$)", target):
             return layer
     return None
 
@@ -77,7 +77,7 @@ def check_file(pyfile: Path) -> int:
 
 
 def main() -> None:
-    target_dir = sys.argv[1] if len(sys.argv) > 1 else "src/"
+    target_dir = sys.argv[1] if len(sys.argv) > 1 else "backend/"
     target = Path(target_dir)
 
     errors = 0

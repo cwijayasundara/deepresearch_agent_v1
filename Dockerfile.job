@@ -24,9 +24,9 @@ RUN groupadd --gid 1000 appuser \
 COPY --from=builder /install /usr/local
 
 # Copy application source
-COPY src/ src/
+COPY backend/ backend/
 
 # Drop privileges
 USER appuser
 
-CMD ["python", "-m", "src.runtime.job_runner"]
+CMD ["python", "-m", "backend.runtime.job_runner"]

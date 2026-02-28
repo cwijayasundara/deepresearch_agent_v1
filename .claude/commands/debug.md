@@ -24,7 +24,7 @@ Example: `/forge:debug user registration returns 500 error when email contains a
 
 ### Phase 1: Reproduce
 1. Analyze the bug description provided by the user.
-2. Identify the relevant code paths by searching `src/` and `tests/`.
+2. Identify the relevant code paths by searching `backend/` (including `backend/tests/`).
 3. Attempt to reproduce the bug:
    - Look for an existing test that covers the scenario. If found, run it to confirm failure.
    - If no existing test, write a minimal reproduction test that demonstrates the bug.

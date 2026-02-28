@@ -41,8 +41,8 @@ Example: `/scaffold python-fastapi`
    ```
 
 3. **Verify the scaffold created these directories**:
-   - `src/types/`, `src/config/`, `src/repo/`, `src/service/`, `src/runtime/`, `src/ui/` (6-layer architecture)
-   - `tests/` with mirror structure matching `src/`
+   - `backend/types/`, `backend/config/`, `backend/repo/`, `backend/service/`, `backend/runtime/`, `backend/ui/` (6-layer architecture)
+   - `backend/tests/` with mirror structure matching `backend/`
    - `specs/features/`, `specs/stories/`, `specs/design/`, `specs/tests/`, `specs/plans/`
    - `.claude/linters/` with `layer_deps.py` and `file_size.py`
 

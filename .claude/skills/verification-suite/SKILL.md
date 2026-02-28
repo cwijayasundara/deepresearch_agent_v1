@@ -121,7 +121,7 @@ These checks produce reports but do not block the PR. Results are included in th
 ### Test Coverage
 
 ```bash
-pytest tests/ --cov=src --cov-report=term-missing
+pytest backend/tests/ --cov=src --cov-report=term-missing
 ```
 
 Report includes:
@@ -159,9 +159,9 @@ Report includes:
 ### Documentation
 
 Check that public APIs have docstrings:
-- All service functions in `src/service/`
-- All route handlers in `src/ui/`
-- All Pydantic models in `src/types/`
+- All service functions in `backend/service/`
+- All route handlers in `backend/ui/`
+- All Pydantic models in `backend/types/`
 
 ### Deployment Readiness
 
@@ -194,7 +194,7 @@ Check tests written for this story:
 Check code written for this story:
 - All imports follow the forward-only direction rule
 - No backward imports introduced
-- New types are in `src/types/`, not inline in higher layers
+- New types are in `backend/types/`, not inline in higher layers
 
 ---
 
@@ -231,7 +231,7 @@ Generated: <timestamp>
 | Coverage | 87% | 3 files below 80% |
 | Linters | PASS | No violations |
 | Dependencies | 0 CVEs | All clear |
-| Docs | 2 missing | src/service/auth.py, src/service/search.py |
+| Docs | 2 missing | backend/service/auth.py, backend/service/search.py |
 | Deploy | PASS | Dockerfile builds |
 
 ## Tier 3: Per-Story (last run)

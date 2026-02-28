@@ -7,7 +7,7 @@ Reviews code for performance issues including N+1 queries, unbounded loops, miss
 ## Process
 
 1. **Read the spec and design** — understand expected data volumes, concurrency, and SLAs from `specs/features/` and `specs/design/`
-2. **Identify hot paths** — find request handlers, background jobs, and data processing pipelines in `src/`
+2. **Identify hot paths** — find request handlers, background jobs, and data processing pipelines in `backend/`
 3. **Check database access patterns**:
    a. Look for N+1 queries (loop with individual DB calls instead of batch)
    b. Check for missing indexes implied by query patterns

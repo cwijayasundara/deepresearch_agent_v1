@@ -44,7 +44,7 @@ For each story in dependency order:
 
 ### 4. Post-Implementation
 
-1. Run full test suite: `pytest tests/ --cov=src --cov-fail-under=80`
+1. Run full test suite: `pytest backend/tests/ --cov=src --cov-fail-under=80`
 2. Run all linters: `python3 .claude/linters/lint_all.py`
 3. Update execution plan with progress checkboxes
 

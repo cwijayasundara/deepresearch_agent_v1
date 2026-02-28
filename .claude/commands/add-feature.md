@@ -8,7 +8,7 @@ Feature SDLC pipeline for adding a feature to an existing application. Like `/fo
 
 ## When to Use
 
-Use this command when adding a new feature to an already-scaffolded project. The project must have an existing `src/` directory and `CLAUDE.md`. If the project has not been initialized, use `/forge:init` first.
+Use this command when adding a new feature to an already-scaffolded project. The project must have an existing `backend/` directory and `CLAUDE.md`. If the project has not been initialized, use `/forge:init` first.
 
 ## Arguments
 

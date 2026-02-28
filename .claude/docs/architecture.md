@@ -15,22 +15,22 @@ but ships with Python/FastAPI defaults.
 ```
 ┌─────────────────────────────────────────────┐
 │                  UI Layer                   │
-│          src/ui/  (presentation)            │
+│          backend/ui/  (presentation)            │
 ├─────────────────────────────────────────────┤
 │               Runtime Layer                 │
-│     src/runtime/  (server bootstrap)        │
+│     backend/runtime/  (server bootstrap)        │
 ├─────────────────────────────────────────────┤
 │               Service Layer                 │
-│    src/service/  (business logic)           │
+│    backend/service/  (business logic)           │
 ├─────────────────────────────────────────────┤
 │                Repo Layer                   │
-│      src/repo/  (data access)              │
+│      backend/repo/  (data access)              │
 ├─────────────────────────────────────────────┤
 │               Config Layer                  │
-│    src/config/  (configuration)             │
+│    backend/config/  (configuration)             │
 ├─────────────────────────────────────────────┤
 │               Types Layer                   │
-│     src/types/  (shared types)              │
+│     backend/types/  (shared types)              │
 └─────────────────────────────────────────────┘
       ▲ Dependency direction: upward only ▲
 ```
@@ -48,22 +48,22 @@ but ships with Python/FastAPI defaults.
 
 ## Layer Details
 
-### Types (`src/types/`)
+### Types (`backend/types/`)
 Shared types, enums, constants, Pydantic schemas. No project imports allowed — standard library only.
 
-### Config (`src/config/`)
+### Config (`backend/config/`)
 Configuration loading, environment variable parsing, `BaseSettings` classes. May import from Types.
 
-### Repo (`src/repo/`)
+### Repo (`backend/repo/`)
 Data access, database queries, external API clients, file I/O. All I/O lives here. May import from Types, Config.
 
-### Service (`src/service/`)
+### Service (`backend/service/`)
 Business logic, orchestration, domain rules. No direct I/O — delegates to Repo. May import from Types, Config, Repo.
 
-### Runtime (`src/runtime/`)
+### Runtime (`backend/runtime/`)
 Server bootstrap, middleware registration, dependency injection, lifecycle hooks. May import from all lower layers.
 
-### UI (`src/ui/`)
+### UI (`backend/ui/`)
 Presentation layer: FastAPI route handlers, CLI commands, response formatters. May import from all layers.
 
 ## Intentional Constraints

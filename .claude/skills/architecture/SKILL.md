@@ -13,7 +13,7 @@ Manages the project's architecture documentation lifecycle.
 
 Generate architecture docs from scratch:
 
-1. Scan `src/` for module structure, imports, and patterns
+1. Scan `backend/` for module structure, imports, and patterns
 2. Identify layers and their boundaries
 3. Map dependency graph between modules
 4. Document cross-cutting concerns (logging, error handling, config)
@@ -29,7 +29,7 @@ Generate architecture docs from scratch:
 Update existing architecture docs to match code:
 
 1. Read current `.claude/docs/architecture.md`
-2. Scan `src/` for changes since last update
+2. Scan `backend/` for changes since last update
 3. Identify new modules, changed boundaries, new dependencies
 4. Update the docs to reflect current state
 5. Highlight what changed for user review

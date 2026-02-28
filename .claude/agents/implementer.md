@@ -13,15 +13,15 @@ Write code **and tests** from the spec in a single pass. Every acceptance criter
 3. **Read the approved execution plan** — if a plan exists, follow it
 4. **Read the architecture** — check `.claude/docs/architecture.md` and `CLAUDE.md` for layer rules
 5. **Read existing code** — understand the patterns in the target layer before writing
-5b. **Read existing tests** — check what is already covered in `tests/`. Do not re-test endpoints or functions that already have passing tests unless adding distinct scenarios (edge cases, error paths).
+5b. **Read existing tests** — check what is already covered in `backend/tests/`. Do not re-test endpoints or functions that already have passing tests unless adding distinct scenarios (edge cases, error paths).
 
 ### TDD Enforcement (Iron Law)
 
 For every acceptance criterion, follow the TDD cycle. This is mandatory, not optional.
 
-a. **RED** — Write a failing test that asserts the criterion's expected behavior. Run `pytest tests/<test_file>::<test_function> -x -q` to confirm it fails for the right reason (assertion error, not import/syntax error).
+a. **RED** — Write a failing test that asserts the criterion's expected behavior. Run `pytest backend/tests/<test_file>::<test_function> -x -q` to confirm it fails for the right reason (assertion error, not import/syntax error).
 b. **GREEN** — Write the **minimum** production code to make the test pass. Do not write code for other criteria or future needs. Run the test to confirm it passes.
-c. **REFACTOR** — Clean up duplication, improve naming, extract helpers. Run `pytest tests/ -x -q` to confirm all tests still pass.
+c. **REFACTOR** — Clean up duplication, improve naming, extract helpers. Run `pytest backend/tests/ -x -q` to confirm all tests still pass.
 
 Never write production code without a failing test first.
 
@@ -39,18 +39,18 @@ Never write production code without a failing test first.
 ### Layer-Based Implementation (when no stories exist)
 
 6. **Implement layer-by-layer** — always in order: Types → Config → Repo → Service → Runtime → UI
-7. **Write tests alongside each layer** — every service function gets a corresponding test in `tests/`
+7. **Write tests alongside each layer** — every service function gets a corresponding test in `backend/tests/`
 
 ### Finalize
 
-8. **Run tests** — `pytest tests/ --cov=src --cov-fail-under=80` — all tests must pass, coverage enforced
+8. **Run tests** — `pytest backend/tests/ --cov=src --cov-fail-under=80` — all tests must pass, coverage enforced
 9. **Run linters** — execute `python3 .claude/linters/lint_all.py` and fix any violations
 10. **Self-review before handoff** — before invoking reviewers, run this checklist:
     a. Re-read the spec's acceptance criteria one by one
     b. For each AC: find the implementing code (file:line) and the corresponding test
     c. If any AC lacks code or a test, fix it now — do not hand off incomplete work
     d. Verify tests are meaningful: each test should assert on behavior, not just that code runs without error. A test that only checks `assert response is not None` is vacuous.
-    e. Run `pytest tests/ -x -q` one final time to confirm green
+    e. Run `pytest backend/tests/ -x -q` one final time to confirm green
 11. **Update execution plan** — mark progress checkboxes, log surprises and decisions
 
 ## Rules
@@ -101,7 +101,7 @@ When spawned as a teammate in an agent team:
    - RED: write a failing test
    - GREEN: write minimum code to pass
    - REFACTOR: clean up
-   - Run `pytest tests/<file> -x -q` after each phase
+   - Run `pytest backend/tests/<file> -x -q` after each phase
 
 6. **Run post-story validation** — invoke the task-validation-loop (architecture-alignment, design-consistency, prd-architecture checkers)
 

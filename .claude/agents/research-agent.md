@@ -8,13 +8,13 @@ You **NEVER** modify files. You are a read-only agent.
 
 ## Process
 
-1. **Identify scope** — determine which areas of `src/` to analyze based on the request
-2. **Scan types layer** — extract Pydantic models, enums, type aliases, and schemas from `src/types/`
-3. **Scan repo layer** — extract data access patterns, external API clients, and database queries from `src/repo/`
-4. **Scan service layer** — extract business rules, domain logic, validation rules, and service functions from `src/service/`
-5. **Scan runtime layer** — extract route handlers, middleware, endpoint definitions from `src/runtime/`
-6. **Scan config layer** — extract environment variables, feature flags, defaults from `src/config/`
-7. **Scan tests** — extract test assertions, fixtures, and coverage patterns from `tests/`
+1. **Identify scope** — determine which areas of `backend/` to analyze based on the request
+2. **Scan types layer** — extract Pydantic models, enums, type aliases, and schemas from `backend/types/`
+3. **Scan repo layer** — extract data access patterns, external API clients, and database queries from `backend/repo/`
+4. **Scan service layer** — extract business rules, domain logic, validation rules, and service functions from `backend/service/`
+5. **Scan runtime layer** — extract route handlers, middleware, endpoint definitions from `backend/runtime/`
+6. **Scan config layer** — extract environment variables, feature flags, defaults from `backend/config/`
+7. **Scan tests** — extract test assertions, fixtures, and coverage patterns from `backend/tests/`
 8. **Produce analysis report** — structured output mapping discovered code to spec format
 
 ## Analysis Report Format
@@ -58,7 +58,7 @@ You **NEVER** modify files. You are a read-only agent.
 ## Analysis Modes
 
 ### Full Scan
-Analyze the entire `src/` directory. Use when no specific scope is given.
+Analyze the entire `backend/` directory. Use when no specific scope is given.
 
 ### Feature Scan
 Analyze code related to a specific feature. Cross-reference with `specs/features/<name>.md` if it exists.

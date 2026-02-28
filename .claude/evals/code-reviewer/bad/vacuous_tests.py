@@ -17,7 +17,7 @@ def test_create_user_works(mock_repo):
     mock_repo.find_by_email.return_value = None
     mock_repo.save.return_value = MagicMock()
 
-    from src.service.user_service import UserService
+    from backend.service.user_service import UserService
     service = UserService(repo=mock_repo)
     result = service.create_user(MagicMock())
 
@@ -28,7 +28,7 @@ def test_get_user_returns_something(mock_repo):
     """Test get_user."""
     mock_repo.find_by_id.return_value = MagicMock()
 
-    from src.service.user_service import UserService
+    from backend.service.user_service import UserService
     service = UserService(repo=mock_repo)
     result = service.get_user("some-id")
 
@@ -37,7 +37,7 @@ def test_get_user_returns_something(mock_repo):
 
 def test_service_initializes():
     """Test that the service can be created."""
-    from src.service.user_service import UserService
+    from backend.service.user_service import UserService
     service = UserService(repo=MagicMock())
     assert service is not None  # VACUOUS: of course it's not None
 

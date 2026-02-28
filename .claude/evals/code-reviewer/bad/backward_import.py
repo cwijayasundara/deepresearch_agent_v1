@@ -9,7 +9,7 @@
 import logging
 from pydantic import BaseModel
 
-from src.service.user_service import UserService  # VIOLATION: backward import
+from backend.service.user_service import UserService  # VIOLATION: backward import
 
 logger = logging.getLogger(__name__)
 

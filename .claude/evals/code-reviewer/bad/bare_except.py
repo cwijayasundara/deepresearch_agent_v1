@@ -10,8 +10,8 @@
 
 import logging
 
-from src.types.user import UserCreate, User
-from src.repo.user_repo import UserRepo
+from backend.types.user import UserCreate, User
+from backend.repo.user_repo import UserRepo
 
 logger = logging.getLogger(__name__)
 

@@ -77,7 +77,7 @@ def main() -> None:
         run_linter("file_size", file_dir)
 
     # Test file existence check for service modules
-    if "src/service/" in file_path and ext == "py":
+    if "backend/service/" in file_path and ext == "py":
         base = Path(file_path).stem
         if base not in ("__init__", "conftest"):
             project_root = get_project_root()
@@ -85,7 +85,7 @@ def main() -> None:
             if not test_file.exists():
                 print(
                     f"post-write-lint: No test file found at"
-                    f" tests/service/test_{base}.py"
+                    f" backend/tests/service/test_{base}.py"
                     " -- consider adding tests."
                 )
 

@@ -30,7 +30,7 @@ Example:
 
 Generate or update specs based on existing code.
 
-1. Scan `src/` to discover all modules, their layers, and their responsibilities.
+1. Scan `backend/` to discover all modules, their layers, and their responsibilities.
 2. For each service-layer module, identify:
    - Public API surface (functions, classes, methods)
    - Domain types used
@@ -54,8 +54,8 @@ Compare specs against code and report drift.
 1. Read all specs from `specs/features/` and extract acceptance criteria.
 2. Read all stories from `specs/stories/` and extract requirements.
 3. For each acceptance criterion and requirement:
-   a. Search `src/` for the implementing code.
-   b. Search `tests/` for covering tests.
+   a. Search `backend/` for the implementing code.
+   b. Search `backend/tests/` for covering tests.
    c. Classify as:
       - **Implemented + Tested**: criterion is met with test coverage
       - **Implemented + Untested**: code exists but no test covers the criterion
@@ -69,9 +69,9 @@ Compare specs against code and report drift.
 ### Feature: User Authentication (specs/features/auth_spec.md)
 | Criterion                        | Status               | Location            |
 |----------------------------------|----------------------|---------------------|
-| Users can register with email    | Implemented + Tested | src/service/auth.py |
+| Users can register with email    | Implemented + Tested | backend/service/auth.py |
 | Password reset via email         | Not Implemented      | —                   |
-| Session timeout after 30min      | Partially Implemented| src/runtime/auth.py |
+| Session timeout after 30min      | Partially Implemented| backend/runtime/auth.py |
 
 ### Summary
 - Implemented + Tested: 8/12 (67%)

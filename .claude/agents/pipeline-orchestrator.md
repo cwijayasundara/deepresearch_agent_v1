@@ -18,9 +18,9 @@ SPEC → STORIES → DESIGN → TEST PLAN → PLAN → [APPROVE] → IMPLEMENT �
 | 4 | TEST PLAN | spec-writer | `specs/tests/<name>.md` |
 | 5 | PLAN | spec-writer | `specs/plans/<name>.md` |
 | 6 | APPROVE | human | Human approval checkpoint |
-| 7 | IMPLEMENT | implementer (or team via `teams` skill) | `src/` files, `tests/` files |
-| 8 | TEST FILL | test-writer | Additional `tests/` files |
-| 9 | E2E | e2e-writer | `tests/e2e/` files |
+| 7 | IMPLEMENT | implementer (or team via `teams` skill) | `backend/` files (incl. `backend/tests/`) |
+| 8 | TEST FILL | test-writer | Additional `backend/tests/` files |
+| 9 | E2E | e2e-writer | `backend/tests/e2e/` files |
 | 10 | DEVOPS | devops | CI/CD configs, Dockerfile, infra/ |
 | 11 | REVIEW | 8 reviewers via `validation-loop` skill | Review reports |
 | 12 | APPROVE | human | Human approval checkpoint |
@@ -48,9 +48,9 @@ Before advancing from any phase, verify:
 | DESIGN | `specs/design/<name>.md` exists with layer impact analysis |
 | TEST PLAN | `specs/tests/<name>.md` exists with test cases |
 | PLAN | `specs/plans/<name>.md` exists with execution steps |
-| IMPLEMENT | New files in `src/`, tests pass (`pytest tests/ -x -q`), TDD enforced, task-validation-loop passed per story |
-| TEST FILL | Coverage >= 80% (`pytest tests/ --cov=src --cov-fail-under=80`) |
-| E2E | `tests/e2e/` has test files, E2E tests pass |
+| IMPLEMENT | New files in `backend/`, tests pass (`pytest backend/tests/ -x -q`), TDD enforced, task-validation-loop passed per story |
+| TEST FILL | Coverage >= 80% (`pytest backend/tests/ --cov=src --cov-fail-under=80`) |
+| E2E | `backend/tests/e2e/` has test files, E2E tests pass |
 | DEVOPS | CI/CD config exists (`.github/workflows/`) |
 | REVIEW | All 5 gating reviewers pass unanimously (spec, code, security, performance, architecture-alignment) via `validation-loop` skill |
 | PR | PR created on remote |

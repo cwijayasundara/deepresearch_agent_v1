@@ -11,7 +11,7 @@
 ## Test Organization
 
 ```
-tests/
+backend/tests/
   types/          # Type validation tests
   config/         # Configuration loading tests
   repo/           # Data access tests (with mocks)
@@ -31,7 +31,7 @@ Examples: `test_create_user_valid_input_returns_user`, `test_create_user_duplica
 
 ## Fixtures
 
-- Before creating a fixture, check `tests/conftest.py` and `tests/*/conftest.py` for existing ones — reuse first
+- Before creating a fixture, check `backend/tests/conftest.py` and `backend/tests/*/conftest.py` for existing ones — reuse first
 - If the same fixture setup appears in 2+ test files, extract to the nearest shared `conftest.py`
 - Before writing a test, check if an equivalent test already exists — do not duplicate coverage
 
@@ -72,4 +72,4 @@ Use pytest markers: `@pytest.mark.unit`, `@pytest.mark.integration`, `@pytest.ma
 
 ## Type Annotations
 
-All function signatures must have type annotations — including test functions, fixtures, and E2E tests, not just `src/`.
+All function signatures must have type annotations — including test functions, fixtures, and E2E tests, not just `backend/`.

@@ -50,7 +50,7 @@ You do not check spec compliance (spec-reviewer's job) or code quality (code-rev
 
 - [ ] No PII in logs (passwords, tokens, emails, SSNs)
 - [ ] No hardcoded secrets, API keys, or connection strings
-- [ ] Environment variables used for all secrets (via src/config/)
+- [ ] Environment variables used for all secrets (via backend/config/)
 - [ ] CORS configured with specific allowed origins (not wildcard)
 - [ ] HTTPS enforced for all external communication
 

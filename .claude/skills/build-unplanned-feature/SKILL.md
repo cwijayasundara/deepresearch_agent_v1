@@ -35,7 +35,7 @@ Run the task-validation-loop (3 checkers):
 
 ### 4. Finalize
 
-1. Run full test suite: `pytest tests/ --cov=src --cov-fail-under=80`
+1. Run full test suite: `pytest backend/tests/ --cov=src --cov-fail-under=80`
 2. Run linters: `python3 .claude/linters/lint_all.py`
 3. Commit with descriptive message
 4. Present results to user

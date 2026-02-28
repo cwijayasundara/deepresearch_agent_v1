@@ -20,7 +20,7 @@ Lightweight validation that runs after each individual task/story is implemented
 1. **Detect scope** — identify which files were changed in the current task
 2. **Run checkers in parallel**:
    - architecture-alignment-checker: always runs
-   - design-consistency-checker: runs only if files in `src/ui/` or template directories were changed
+   - design-consistency-checker: runs only if files in `backend/ui/` or template directories were changed
    - prd-architecture-checker: always runs
 3. **Collect results** — all 3 must pass (ALIGNED/CONSISTENT)
 4. **If any checker fails**:

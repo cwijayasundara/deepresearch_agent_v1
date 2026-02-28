@@ -5,17 +5,17 @@ disable-model-invocation: true
 
 # Layer Architecture Enforcement
 
-Defines and enforces the 6-layer forward-only dependency model for all code in `src/`.
+Defines and enforces the 6-layer forward-only dependency model for all code in `backend/`.
 
 ## The 6-Layer Model
 
 ```
-Layer 5: UI        (src/ui/)       - Presentation, routes, CLI
-Layer 4: Runtime   (src/runtime/)  - Server bootstrap, middleware
-Layer 3: Service   (src/service/)  - Business logic, domain rules
-Layer 2: Repo      (src/repo/)     - Data access, external APIs
-Layer 1: Config    (src/config/)   - Env parsing, defaults
-Layer 0: Types     (src/types/)    - Shared types, enums, schemas
+Layer 5: UI        (backend/ui/)       - Presentation, routes, CLI
+Layer 4: Runtime   (backend/runtime/)  - Server bootstrap, middleware
+Layer 3: Service   (backend/service/)  - Business logic, domain rules
+Layer 2: Repo      (backend/repo/)     - Data access, external APIs
+Layer 1: Config    (backend/config/)   - Env parsing, defaults
+Layer 0: Types     (backend/types/)    - Shared types, enums, schemas
 ```
 
 **Direction**: Code may only import from layers with a LOWER number. Backward imports are forbidden.
@@ -58,36 +58,36 @@ Layer 0: Types     (src/types/)    - Shared types, enums, schemas
 
 ## Layer Contents
 
-### Types (Layer 0) — `src/types/`
+### Types (Layer 0) — `backend/types/`
 - Pydantic models, schemas, enums, constants
 - Refined domain types: `UserId`, `Email`, `OrderId` (never raw `str`/`int` for domain concepts)
 - No project imports allowed -- stdlib and pydantic only
 - This is the stable foundation layer
 
-### Config (Layer 1) — `src/config/`
+### Config (Layer 1) — `backend/config/`
 - `BaseSettings` classes for environment variable parsing
 - Default values, feature flags, configuration constants
 - Loaded once at startup, injected forward into higher layers
 
-### Repo (Layer 2) — `src/repo/`
+### Repo (Layer 2) — `backend/repo/`
 - ALL I/O lives here: database queries, HTTP client calls, filesystem access
 - External API client wrappers
 - Repository pattern: one repo class per domain entity
 - Catches and wraps external exceptions
 
-### Service (Layer 3) — `src/service/`
+### Service (Layer 3) — `backend/service/`
 - Business logic, domain rules, orchestration
 - **No direct I/O** -- delegates all data access to Repo
 - Operates on Types only, receives Repo via dependency injection
 - Pure business logic that is testable with mocked repos
 
-### Runtime (Layer 4) — `src/runtime/`
+### Runtime (Layer 4) — `backend/runtime/`
 - Server bootstrap (FastAPI app creation, middleware registration)
 - Dependency injection wiring
 - Lifecycle hooks (startup, shutdown)
 - Health checks, readiness probes
 
-### UI (Layer 5) — `src/ui/`
+### UI (Layer 5) — `backend/ui/`
 - FastAPI route handlers, CLI commands
 - Request/response formatting
 - Input validation at the boundary
@@ -131,8 +131,8 @@ Never use `print()` or `console.log()`.
 
 ## Enforcement
 
-The `.claude/linters/layer_deps.py` linter automatically checks all imports in `src/` against these rules. It runs:
-- Automatically after every file write to `src/`
+The `.claude/linters/layer_deps.py` linter automatically checks all imports in `backend/` against these rules. It runs:
+- Automatically after every file write to `backend/`
 - As part of `python3 .claude/linters/lint_all.py`
 - In CI on every push
 

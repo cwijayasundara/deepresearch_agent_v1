@@ -3,7 +3,7 @@
 
 Copies the full .claude/ directory (agents, commands, skills, hooks,
 linters, scripts, templates, docs, settings) into the target project,
-then creates the 6-layer src/ structure, tests, specs, and config files.
+then creates the 6-layer backend/ structure, tests, specs, and config files.
 
 After scaffolding, users run `claude` without --plugin-dir — everything
 is local.
@@ -109,7 +109,7 @@ def copy_plugin_directory(root: Path) -> None:
 
 
 def create_src_structure(root: Path) -> None:
-    """Create src/ with layer directories."""
+    """Create backend/ with layer directories."""
     for layer in SRC_LAYERS:
         layer_dir = root / "src" / layer
         create_directory(layer_dir)
@@ -166,12 +166,12 @@ Code may only depend **forward** through layers. Backward imports are forbidden 
 
 | Layer | Path | May Import From | Never Import From |
 |-------|------|-----------------|-------------------|
-| Types | `src/types/` | (none) | All others |
-| Config | `src/config/` | Types | Repo, Service, Runtime, UI |
-| Repo | `src/repo/` | Types, Config | Service, Runtime, UI |
-| Service | `src/service/` | Types, Config, Repo | Runtime, UI |
-| Runtime | `src/runtime/` | Types, Config, Repo, Service | UI |
-| UI | `src/ui/` | All layers | (none) |
+| Types | `backend/types/` | (none) | All others |
+| Config | `backend/config/` | Types | Repo, Service, Runtime, UI |
+| Repo | `backend/repo/` | Types, Config | Service, Runtime, UI |
+| Service | `backend/service/` | Types, Config, Repo | Runtime, UI |
+| Runtime | `backend/runtime/` | Types, Config, Repo, Service | UI |
+| UI | `backend/ui/` | All layers | (none) |
 
 ## TDD Enforcement (Iron Law)
 
@@ -242,12 +242,12 @@ test:
 \tpython -m pytest tests/ -v --tb=short
 
 lint:
-\tpython -m ruff check src/ tests/
-\tpython3 .claude/linters/layer_deps.py src/
-\tpython3 .claude/linters/file_size.py src/
+\tpython -m ruff check backend/ tests/
+\tpython3 .claude/linters/layer_deps.py backend/
+\tpython3 .claude/linters/file_size.py backend/
 
 fmt:
-\tpython -m ruff format src/ tests/
+\tpython -m ruff format backend/ tests/
 
 check: lint test
 """
@@ -313,12 +313,12 @@ Types(0) -> Config(1) -> Repo(2) -> Service(3) -> Runtime(4) -> UI(5)
 
 | Layer | Path | Description |
 |-------|------|-------------|
-| Types | `src/types/` | Domain types (Pydantic models, no project imports) |
-| Config | `src/config/` | Configuration loading |
-| Repo | `src/repo/` | Data access (DB, HTTP, filesystem) |
-| Service | `src/service/` | Business logic (no direct I/O) |
-| Runtime | `src/runtime/` | App startup, dependency wiring |
-| UI | `src/ui/` | API routes, CLI handlers |
+| Types | `backend/types/` | Domain types (Pydantic models, no project imports) |
+| Config | `backend/config/` | Configuration loading |
+| Repo | `backend/repo/` | Data access (DB, HTTP, filesystem) |
+| Service | `backend/service/` | Business logic (no direct I/O) |
+| Runtime | `backend/runtime/` | App startup, dependency wiring |
+| UI | `backend/ui/` | API routes, CLI handlers |
 
 ## Forge Commands
 
@@ -339,14 +339,14 @@ This project includes the full claude-code-forge toolkit. Just run `claude` in t
 
 ```
 .claude/             # Forge agents, commands, skills, hooks, linters
-src/
+backend/
 ├── types/           # Domain types
 ├── config/          # Configuration
 ├── repo/            # Data access
 ├── service/         # Business logic
 ├── runtime/         # App startup
 └── ui/              # API / CLI
-tests/               # Mirrors src/ structure
+tests/               # Mirrors backend/ structure
 specs/               # Feature specs, stories, design docs
 ```
 """
@@ -423,7 +423,7 @@ def main() -> None:
     generate_env_example(project_root)
     generate_gitignore(project_root)
 
-    # Create src/__init__.py and tests/__init__.py
+    # Create backend/__init__.py and tests/__init__.py
     write_file(project_root / "src" / "__init__.py", "")
     write_file(project_root / "tests" / "__init__.py", "")
 

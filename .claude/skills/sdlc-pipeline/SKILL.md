@@ -149,7 +149,7 @@ When teams are not required:
 
 **Post-implementation**:
 - Run `python3 .claude/linters/lint_all.py` (all linters must pass)
-- Run `pytest tests/ --cov=src --cov-fail-under=80` (all tests must pass)
+- Run `pytest backend/tests/ --cov=src --cov-fail-under=80` (all tests must pass)
 
 **Gate**: All linters pass, all tests pass, coverage >= 80%, all task-validation-loops passed
 
@@ -168,7 +168,7 @@ When teams are not required:
 **Prompt for test-writer agent**:
 > You are the test-writer agent. Read your instructions from `.claude/agents/test-writer.md`. Fill coverage gaps to reach 80%+. The test plan is at `specs/tests/<feature-name>.md`. Focus on untested acceptance criteria first, then branch coverage.
 
-**Output**: Additional tests in `tests/`
+**Output**: Additional tests in `backend/tests/`
 **Gate**: `pytest --cov=src --cov-fail-under=80` passes, all acceptance criteria have tests
 
 **Error recovery**: Re-invoke test-writer with the coverage report showing gaps.
@@ -181,8 +181,8 @@ When teams are not required:
 **Prompt for e2e-writer agent**:
 > You are the e2e-writer agent. Read your instructions from `.claude/agents/e2e-writer.md`. Create E2E tests from the test plan at `specs/tests/<feature-name>.md` and the API contracts in `specs/design/<feature-name>.md`.
 
-**Output**: `tests/e2e/` with Playwright browser tests or httpx API tests
-**Gate**: E2E test files exist, `pytest tests/e2e/ -m e2e` passes
+**Output**: `backend/tests/e2e/` with Playwright browser tests or httpx API tests
+**Gate**: E2E test files exist, `pytest backend/tests/e2e/ -m e2e` passes
 
 **Error recovery**: Read test failures, fix tests or implementation code, re-run.
 

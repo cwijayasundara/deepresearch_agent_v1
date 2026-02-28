@@ -10,7 +10,7 @@ Reverse-engineers architecture documentation by analyzing the existing codebase 
 ## Process
 
 1. **Scan the codebase**:
-   a. Map all packages and modules in `src/`
+   a. Map all packages and modules in `backend/`
    b. Build an import dependency graph
    c. Identify layer boundaries (where do Types end and Config begin?)
    d. Find cross-cutting patterns (logging, error handling, config injection)

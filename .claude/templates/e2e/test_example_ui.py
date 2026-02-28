@@ -4,7 +4,7 @@ These tests demonstrate the pattern for writing UI E2E tests.
 They require a running application server at BASE_URL.
 
 Run:
-    BASE_URL=http://localhost:8000 pytest tests/e2e/test_example_ui.py -m e2e
+    BASE_URL=http://localhost:8000 pytest backend/tests/e2e/test_example_ui.py -m e2e
 """
 
 from __future__ import annotations

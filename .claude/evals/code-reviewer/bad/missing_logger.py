@@ -6,8 +6,8 @@
 # - No module-level logger (uses print instead)
 # - Raw print() for logging
 
-from src.types.user import UserId, UserCreate, User
-from src.repo.user_repo import UserRepo
+from backend.types.user import UserId, UserCreate, User
+from backend.repo.user_repo import UserRepo
 
 
 class UserService:

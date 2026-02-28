@@ -37,7 +37,7 @@ Invoke all 8 reviewers in parallel via the Task tool:
 For each reviewer:
   Task:
     subagent_type: "general-purpose"
-    prompt: "You are the <agent-name> agent. Read .claude/agents/<agent-name>.md. Review the implementation in src/ against specs/features/<feature>.md. Produce your review report."
+    prompt: "You are the <agent-name> agent. Read .claude/agents/<agent-name>.md. Review the implementation in backend/ against specs/features/<feature>.md. Produce your review report."
 ```
 
 Wait for all 8 to complete.

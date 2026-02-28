@@ -17,12 +17,12 @@ Use this command when code quality has degraded and needs cleanup. Common scenar
 
 ## Arguments
 
-- **target** (optional): A specific file, directory, or area to focus on. If omitted, the refactorer scans the entire `src/` directory.
+- **target** (optional): A specific file, directory, or area to focus on. If omitted, the refactorer scans the entire `backend/` directory.
 
 Examples:
 - `/forge:refactor` — scan and fix across the whole codebase
-- `/forge:refactor src/service/` — focus on the service layer
-- `/forge:refactor src/repo/user_repo.py` — refactor a specific file
+- `/forge:refactor backend/service/` — focus on the service layer
+- `/forge:refactor backend/repo/user_repo.py` — refactor a specific file
 
 ## Process
 

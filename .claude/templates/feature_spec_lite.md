@@ -17,12 +17,12 @@ Brief, clear description of what this feature does and the problem it solves.
 
 ## Affected Layers
 
-- [ ] **Types** (`src/types/`): [what changes]
-- [ ] **Config** (`src/config/`): [what changes]
-- [ ] **Repo** (`src/repo/`): [what changes]
-- [ ] **Service** (`src/service/`): [what changes]
-- [ ] **Runtime** (`src/runtime/`): [what changes]
-- [ ] **UI** (`src/ui/`): [what changes]
+- [ ] **Types** (`backend/types/`): [what changes]
+- [ ] **Config** (`backend/config/`): [what changes]
+- [ ] **Repo** (`backend/repo/`): [what changes]
+- [ ] **Service** (`backend/service/`): [what changes]
+- [ ] **Runtime** (`backend/runtime/`): [what changes]
+- [ ] **UI** (`backend/ui/`): [what changes]
 
 ## Business Rules
 

@@ -5,7 +5,7 @@ disable-model-invocation: true
 
 # Spec Sync Engine
 
-Bidirectional synchronization between specs in `specs/` and implementation in `src/`. Detects drift in both directions and generates reports or updates.
+Bidirectional synchronization between specs in `specs/` and implementation in `backend/`. Detects drift in both directions and generates reports or updates.
 
 ## Directions
 
@@ -16,16 +16,16 @@ Scans the codebase and generates or updates specs to match what is actually impl
 **Process**:
 
 1. **Scan source code** using a research agent (Task tool with subagent_type Explore):
-   - Scan `src/types/` for Pydantic models -> extract type specs
-   - Scan `src/ui/` for route handlers -> extract API endpoint specs
-   - Scan `src/service/` for service functions -> extract business rule specs
-   - Scan `tests/` for test assertions -> extract acceptance criteria
+   - Scan `backend/types/` for Pydantic models -> extract type specs
+   - Scan `backend/ui/` for route handlers -> extract API endpoint specs
+   - Scan `backend/service/` for service functions -> extract business rule specs
+   - Scan `backend/tests/` for test assertions -> extract acceptance criteria
 
 2. **Map discovered components to specs**:
    For each discovered component, search `specs/features/` for a matching spec file.
 
 3. **Report unmatched code**:
-   Components in `src/` that have no corresponding spec in `specs/features/`.
+   Components in `backend/` that have no corresponding spec in `specs/features/`.
 
 4. **Generate or update specs**:
    For each unmatched component, generate a feature spec using `.claude/templates/feature_spec_lite.md` as the template. Pre-fill:
@@ -49,8 +49,8 @@ Scans all specs and verifies that each requirement has corresponding implementat
 1. **Read all specs** from `specs/features/*.md`
 
 2. **For each acceptance criterion** in each spec:
-   - Search `src/` for matching implementation (by function name, route path, or business rule)
-   - Search `tests/` for matching test (by test name or assertion content)
+   - Search `backend/` for matching implementation (by function name, route path, or business rule)
+   - Search `backend/tests/` for matching test (by test name or assertion content)
 
 3. **Classify each criterion**:
    - **Implemented + Tested**: code exists AND test exists
@@ -78,14 +78,14 @@ Generated: <timestamp>
 
 ## Unimplemented Criteria
 ### auth
-- AC-4: "User can reset password via email link" -- no matching code in src/service/
+- AC-4: "User can reset password via email link" -- no matching code in backend/service/
 
 ## Untested Criteria
 ### auth
-- AC-3: "Invalid token returns 401" -- implemented in src/ui/auth_routes.py:45 but no test
+- AC-3: "Invalid token returns 401" -- implemented in backend/ui/auth_routes.py:45 but no test
 
 ## Code Without Specs
-- src/service/analytics_service.py -- no matching spec in specs/features/
+- backend/service/analytics_service.py -- no matching spec in specs/features/
 ```
 
 ## Usage

@@ -85,7 +85,7 @@ def check_function_sizes(target: Path) -> int:
 
 
 def main() -> None:
-    target_dir = sys.argv[1] if len(sys.argv) > 1 else "src/"
+    target_dir = sys.argv[1] if len(sys.argv) > 1 else "backend/"
     target = Path(target_dir)
 
     errors = check_file_sizes(target) + check_function_sizes(target)

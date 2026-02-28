@@ -21,7 +21,7 @@ Executes a single task (story or work item) with strict TDD and post-task valida
      prompt: "You are the task-executor agent. Read .claude/agents/task-executor.md. Implement story <US-XXX> using strict TDD for each acceptance criterion."
    ```
 4. **Verify results**:
-   - All tests pass: `pytest tests/ -x -q`
+   - All tests pass: `pytest backend/tests/ -x -q`
    - Linters pass: `python3 .claude/linters/lint_all.py`
    - Commit exists: `feat(US-XXX): <description>`
 5. **Run task-validation-loop** — invoke the task-validation-loop skill

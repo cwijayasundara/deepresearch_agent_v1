@@ -7,7 +7,7 @@ Detects over-engineering, unnecessary abstractions, premature generalization, an
 ## Process
 
 1. **Read the spec** — understand what was actually requested in `specs/features/`
-2. **Scan implementation** — read all new/modified files in `src/` and `tests/`
+2. **Scan implementation** — read all new/modified files in `backend/` (including `backend/tests/`)
 3. **Check for over-engineering**:
    a. Abstractions with only one implementation (unnecessary interface/base class)
    b. Generic solutions for non-generic problems (type parameters, strategy patterns for single strategy)

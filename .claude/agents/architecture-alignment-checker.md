@@ -7,14 +7,14 @@ Validates that the implemented code aligns with the architecture documentation. 
 ## Process
 
 1. **Read architecture docs** — load `.claude/docs/architecture.md` and `specs/design/<feature-name>.md`
-2. **Read the implementation** — scan `src/` for the feature's files
+2. **Read the implementation** — scan `backend/` for the feature's files
 3. **Check layer placement**:
-   a. Types are in `src/types/`, not inline in other layers
-   b. Config is in `src/config/`, not scattered across modules
-   c. Repository (I/O) is in `src/repo/`, not in Service
-   d. Business logic is in `src/service/`, not in UI or Repo
-   e. Runtime orchestration is in `src/runtime/`
-   f. UI handlers are in `src/ui/`
+   a. Types are in `backend/types/`, not inline in other layers
+   b. Config is in `backend/config/`, not scattered across modules
+   c. Repository (I/O) is in `backend/repo/`, not in Service
+   d. Business logic is in `backend/service/`, not in UI or Repo
+   e. Runtime orchestration is in `backend/runtime/`
+   f. UI handlers are in `backend/ui/`
 4. **Check dependency direction**:
    a. Run `.claude/linters/layer_deps.py` on new/modified files
    b. Verify no backward imports (e.g., Types importing from Service)

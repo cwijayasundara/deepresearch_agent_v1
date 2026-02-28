@@ -12,8 +12,8 @@
 import logging
 from typing import Optional
 
-from src.types.user import UserId, UserCreate, User
-from src.repo.user_repo import UserRepo
+from backend.types.user import UserId, UserCreate, User
+from backend.repo.user_repo import UserRepo
 
 logger = logging.getLogger(__name__)
 

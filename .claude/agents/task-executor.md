@@ -12,15 +12,15 @@ Executes a single task (story or work item) using strict TDD: write a failing te
 4. **For each acceptance criterion, follow the TDD cycle**:
    a. **RED**: Write a failing test that asserts the criterion's expected behavior
       - Test must fail for the right reason (not import errors or syntax errors)
-      - Run `pytest tests/<test_file> -x -q` to confirm it fails
+      - Run `pytest backend/tests/<test_file> -x -q` to confirm it fails
    b. **GREEN**: Write the minimum code to make the test pass
       - Do not write more code than needed for this specific criterion
-      - Run `pytest tests/<test_file> -x -q` to confirm it passes
+      - Run `pytest backend/tests/<test_file> -x -q` to confirm it passes
    c. **REFACTOR**: Clean up without changing behavior
       - Extract duplicated code
       - Improve naming
-      - Run `pytest tests/<test_file> -x -q` to confirm still passing
-5. **Run full test suite** — `pytest tests/ -x -q` to catch regressions
+      - Run `pytest backend/tests/<test_file> -x -q` to confirm still passing
+5. **Run full test suite** — `pytest backend/tests/ -x -q` to catch regressions
 6. **Run linters** — `python3 .claude/linters/lint_all.py`
 7. **Commit** — `feat(US-XXX): <description>` per story
 8. **Run post-task validation** — invoke the task-validation-loop skill:
