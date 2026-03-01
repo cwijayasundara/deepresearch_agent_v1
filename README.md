@@ -200,6 +200,158 @@ Both engines run in parallel via `asyncio.gather()`, parse their markdown output
 
 ---
 
+## Rust Backend Architecture
+
+The Rust backend is a ground-up rewrite using Axum and Tokio. It exposes the same REST API as the Python backend, so the Next.js frontend works with either one unchanged.
+
+### System Overview
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     Next.js Frontend (:3000)                    │
+│  ┌───────────┐  ┌───────────┐  ┌──────────┐  ┌──────────────┐  │
+│  │ LoginForm │  │ Dashboard │  │ Report   │  │ EnginePanel  │  │
+│  │           │  │           │  │ Detail   │  │ (events,     │  │
+│  │           │  │           │  │ /[id]    │  │  dives, etc) │  │
+│  └─────┬─────┘  └─────┬─────┘  └────┬─────┘  └──────────────┘  │
+│        │              │              │                           │
+│        └──────────────┼──────────────┘                           │
+│                       │  fetch() + Bearer JWT                    │
+│                       ▼                                          │
+│              ┌─────────────────┐                                 │
+│              │  lib/api.ts     │  Base URL: NEXT_PUBLIC_API_URL  │
+│              │  HTTP client    │  Content-Type: application/json │
+│              └────────┬────────┘                                 │
+└───────────────────────┼─────────────────────────────────────────┘
+                        │ REST / JSON
+                        ▼
+┌───────────────────────────────────────────────────────────────────┐
+│                   Rust/Axum Backend (:8000)                       │
+│                                                                   │
+│  ┌─────────────────── Routes ───────────────────────┐             │
+│  │  GET  /health              → health_check        │             │
+│  │  POST /api/auth/login      → login (JWT issue)   │             │
+│  │  GET  /api/reports/        → list_reports    ◄──┐ │             │
+│  │  GET  /api/reports/{id}    → get_report      ◄──┤ │             │
+│  │  POST /api/reports/trigger → trigger_research◄──┘ │             │
+│  └───────────────────┬──────────────────────────│────┘             │
+│                      │                   JWT middleware            │
+│                      │                   (auth::middleware)        │
+│                      ▼                                            │
+│  ┌─────────── Orchestrator ──────────────────────────┐            │
+│  │  run_daily_research(date)                          │            │
+│  │                                                    │            │
+│  │  Phase 1: Build prompt from template + date        │            │
+│  │                                                    │            │
+│  │  Phase 2: Parallel web search (3 queries)          │            │
+│  │  ┌──────────────────────────────────────────┐      │            │
+│  │  │         search::parallel_search()        │      │            │
+│  │  │  ┌──────────┐ ┌──────────┐ ┌──────────┐ │      │            │
+│  │  │  │ AI News  │ │Breakthrgh│ │ Funding  │ │      │            │
+│  │  │  │  Query   │ │  Query   │ │  Query   │ │      │            │
+│  │  │  └────┬─────┘ └────┬─────┘ └────┬─────┘ │      │            │
+│  │  │       └──────┬─────┴─────┬───────┘       │      │            │
+│  │  │              ▼           ▼               │      │            │
+│  │  │         Tavily Search API                │      │            │
+│  │  │         (deduplicate by URL)             │      │            │
+│  │  └──────────────────────────────────────────┘      │            │
+│  │                      │ combined context                        │
+│  │                      ▼                             │            │
+│  │  Phase 3: Parallel LLM analysis (tokio::join!)     │            │
+│  │  ┌──────────────────────────────────────────┐      │            │
+│  │  │        engines::run_research()           │      │            │
+│  │  │  ┌──────────┐ ┌──────────┐ ┌──────────┐ │      │            │
+│  │  │  │  TL;DR   │ │  Viral   │ │Deep Dives│ │      │            │
+│  │  │  │  Call    │ │  Events  │ │ + Audit  │ │      │            │
+│  │  │  └────┬─────┘ └────┬─────┘ └────┬─────┘ │      │            │
+│  │  │       └──────┬─────┴─────┬───────┘       │      │            │
+│  │  │              ▼           ▼               │      │            │
+│  │  │     OpenAI API (via Rig client)          │      │            │
+│  │  └──────────────────────────────────────────┘      │            │
+│  │                      │ markdown output                         │
+│  │                      ▼                             │            │
+│  │  Phase 4: Parse & store                            │            │
+│  │  ┌──────────────────────────────────────────┐      │            │
+│  │  │  parser.rs  (regex → structured data)    │      │            │
+│  │  │  TL;DR, ViralEvents, DeepDives, Audit    │      │            │
+│  │  └──────────────┬───────────────────────────┘      │            │
+│  │                 ▼                                  │            │
+│  │  ┌──────────────────────────────────────────┐      │            │
+│  │  │  repo::sqlite  (tokio-rusqlite)          │      │            │
+│  │  │  reports.db  ← INSERT OR REPLACE         │      │            │
+│  │  └──────────────────────────────────────────┘      │            │
+│  └────────────────────────────────────────────────────┘            │
+└───────────────────────────────────────────────────────────────────┘
+```
+
+### Request Flow: Triggering a Research Run
+
+```
+ Browser                  Next.js              Axum Backend           External APIs
+ ───────                  ──────               ────────────           ─────────────
+    │                        │                      │                       │
+    │  Click "Trigger"       │                      │                       │
+    ├───────────────────────►│                      │                       │
+    │                        │  POST /api/reports/  │                       │
+    │                        │  trigger             │                       │
+    │                        │  Authorization:      │                       │
+    │                        │  Bearer <jwt>        │                       │
+    │                        ├─────────────────────►│                       │
+    │                        │                      │── verify JWT          │
+    │                        │                      │                       │
+    │                        │                      │── build prompt        │
+    │                        │                      │                       │
+    │                        │                      │   ┌── Tavily query 1 ─┤
+    │                        │                      │   ├── Tavily query 2 ─┤
+    │                        │                      │   └── Tavily query 3 ─┤
+    │                        │                      │       (parallel)      │
+    │                        │                      │◄──────────────────────┤
+    │                        │                      │   search results      │
+    │                        │                      │                       │
+    │                        │                      │   ┌── LLM call 1 ────┤
+    │                        │                      │   ├── LLM call 2 ────┤
+    │                        │                      │   └── LLM call 3 ────┤
+    │                        │                      │       (parallel)      │
+    │                        │                      │◄──────────────────────┤
+    │                        │                      │   markdown responses  │
+    │                        │                      │                       │
+    │                        │                      │── parse markdown      │
+    │                        │                      │── save to SQLite      │
+    │                        │                      │                       │
+    │                        │  {report_id, status} │                       │
+    │                        │◄─────────────────────┤                       │
+    │  re-fetch report list  │                      │                       │
+    │◄───────────────────────┤                      │                       │
+    │  render updated UI     │                      │                       │
+```
+
+### Python vs Rust Backend — Drop-in Swap
+
+```
+                   ┌───────────────────────┐
+                   │   Next.js Frontend    │
+                   │    (unchanged)        │
+                   └───────────┬───────────┘
+                               │
+                     same REST/JSON API
+                               │
+              ┌────────────────┼────────────────┐
+              ▼                                 ▼
+┌──────────────────────┐          ┌──────────────────────┐
+│  Python / FastAPI    │          │  Rust / Axum         │
+│                      │          │                      │
+│  Gemini + LangChain  │          │  OpenAI via Rig      │
+│  Google Firestore    │          │  Local SQLite        │
+│  asyncio.gather()    │          │  tokio::join!()      │
+│  ~30s per run        │          │  ~12-15s per run     │
+│                      │          │                      │
+│  Needs: GCP, Gemini  │          │  Needs: Rust only    │
+│  Best for: prod/GCP  │          │  Best for: local dev │
+└──────────────────────┘          └──────────────────────┘
+```
+
+---
+
 ## Local Setup (Rust Backend)
 
 The Rust backend is a drop-in replacement for the Python/FastAPI server. It exposes the **exact same JSON API**, so the frontend works without any changes. It uses SQLite instead of Firestore for local storage.
@@ -333,3 +485,114 @@ The Rust backend stores reports in a local SQLite database at `rust-backend/data
 | **Best for** | Production (GCP), existing Firestore data | Local dev, speed, no cloud dependency |
 
 Both backends serve the same API contract. The frontend works identically with either one.
+
+---
+
+## Comparison with LangChain DeepAgents
+
+This section compares the research approaches used in this project against the [LangChain DeepAgents](https://github.com/langchain-ai/deepagents/tree/main/examples/deep_research) deep research example — a true multi-agent system built on LangGraph with dynamic planning, delegation, and reflection.
+
+### Approach Classification
+
+| | Python Backend (Gemini) | Python Backend (LangChain) | Rust Backend | DeepAgents |
+|---|---|---|---|---|
+| **Type** | Single LLM call | Fixed LangGraph pipeline | Fixed Tokio pipeline | Multi-agent with reflection |
+| **Planning** | None | None | None | Dynamic — orchestrator creates TODO plan from query |
+| **Search** | None (Gemini handles it internally) | 3 static queries via Tavily | 3 static queries via Tavily | Sub-agents decide what/when to search (2-5 calls) |
+| **LLM calls** | 1 call to Gemini | 3 parallel via LangGraph `Send` | 3 parallel via `tokio::join!` | N calls per sub-agent, decided dynamically |
+| **Reflection** | None | None | None | `think_tool` after each search to assess gaps |
+| **Iteration** | Single pass | Single pass | Single pass | Up to 3 rounds per sub-agent |
+| **Delegation** | N/A | N/A | N/A | Orchestrator delegates topics to sub-agents via `task()` |
+| **Synthesis** | Regex parse | Ordered merge of 3 sections | String concat of 3 outputs | Orchestrator consolidates with unified citations |
+| **Adaptability** | Same flow every time | Same flow every time | Same flow every time | Scales sub-agents based on query complexity |
+| **Tool use by LLM** | No | No | No | Yes — sub-agents call `tavily_search` + `think_tool` |
+| **Framework** | Google GenAI SDK | LangGraph StateGraph | Axum + Rig | LangGraph + deepagents SDK |
+| **Model** | Google Gemini | GPT-5-mini | GPT-5-mini | Claude Sonnet 4.5 |
+
+### How Close Is Each Backend to DeepAgents?
+
+**Python Backend — Gemini Engine: Low similarity**
+
+The Gemini engine is a single API call — `genai.Client.generate_content(prompt)`. There is no search step, no graph, no tool use. Gemini may perform internal retrieval behind its API, but from this project's perspective, it is a black-box single-shot call. This is the furthest from DeepAgents.
+
+**Python Backend — LangChain Engine: Partial similarity (same framework, different pattern)**
+
+This engine uses LangGraph `StateGraph`, the same framework that DeepAgents builds on. The graph structure is:
+
+```
+START → search → compose_context →─┬─► generate_section("tldr")      ─┬─► combine_results → END
+                                   ├─► generate_section("events")     ─┤
+                                   └─► generate_section("dives_audit")─┘
+                                        (parallel via Send)
+```
+
+It shares LangGraph's `StateGraph`, `Send` for parallel fan-out, and Tavily for search. However, the graph is a **static DAG** — there are no conditional loops, no reflection nodes, no planning step, and no sub-agent delegation. The LLM never decides what to do next; the graph structure is hardcoded.
+
+**Rust Backend: Low similarity (same pattern as LangChain engine, without LangGraph)**
+
+The Rust backend reproduces the same fixed pipeline as the Python/LangChain engine but using raw `tokio::join!` instead of LangGraph. It is functionally equivalent — parallel search, parallel LLM fan-out, concatenate — but without any graph framework. The LLM has no tools and no autonomy.
+
+### Execution Flow Comparison
+
+```
+DeepAgents (multi-agent, adaptive):
+
+  Query
+    │
+    ▼
+  Orchestrator ─── plan(dynamic TODOs) ──► "3 topics to research"
+    │
+    ├──► Sub-agent A ──┬── search ── think ── search ── think ── respond
+    │                  └── (up to 3 rounds, stops when satisfied)
+    ├──► Sub-agent B ──┬── search ── think ── respond
+    │                  └── (1 round was enough)
+    └──► Sub-agent C ──┬── search ── think ── search ── respond
+                       └── (2 rounds needed)
+    │
+    ▼
+  Orchestrator ─── synthesize(findings) ──► final report with citations
+
+
+This project — Python LangChain engine (fixed pipeline):
+
+  Date
+    │
+    ▼
+  build_prompt(date) ──► static prompt template
+    │
+    ├──► Tavily("AI news today")           ─┐
+    ├──► Tavily("AI breakthroughs")         ─┼──► deduplicate ──► search context
+    └──► Tavily("AI funding partnerships")  ─┘
+    │
+    ├──► LLM(TLDR preamble + context)       ─┐
+    ├──► LLM(Events preamble + context)      ─┼──► combine sections ──► report
+    └──► LLM(Dives preamble + context)       ─┘
+
+
+This project — Rust backend (same logic, no graph framework):
+
+  Date
+    │
+    ▼
+  build_research_prompt(date) ──► static prompt
+    │
+    ├──► tavily.search("AI news today")           ─┐
+    ├──► tavily.search("AI breakthroughs")         ─┼──► dedup ──► context
+    └──► tavily.search("AI funding partnerships")  ─┘
+    │
+    ├──► call_llm(TLDR preamble + context)         ─┐
+    ├──► call_llm(Events preamble + context)        ─┼──► concat ──► report
+    └──► call_llm(Dives preamble + context)         ─┘
+```
+
+### Key Differences Summarised
+
+1. **No autonomy** — In both backends, the LLM is a text generator. It receives pre-fetched search context and produces markdown. It never decides to search for more information, ask clarifying questions, or adjust its strategy.
+
+2. **No reflection loop** — DeepAgents sub-agents use a `think_tool` after each search to evaluate "do I have enough information?" and decide whether to search again. This project's engines always run exactly once.
+
+3. **No dynamic planning** — DeepAgents creates a research plan based on the query ("compare X and Y" → spawn 2 sub-agents). This project always runs the same 3 search queries and 3 LLM calls regardless of the topic.
+
+4. **No delegation** — DeepAgents has a hierarchical orchestrator → sub-agent pattern where the orchestrator reasons about task decomposition. This project's orchestrator is a simple parallel runner.
+
+5. **Trade-off: speed vs depth** — This project completes in 12-30 seconds with predictable output structure. DeepAgents may take longer but adapts its research depth to the query complexity.
